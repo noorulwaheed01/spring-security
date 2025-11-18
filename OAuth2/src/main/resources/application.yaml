@@ -1,3 +1,14 @@
 spring:
   application:
     name: OAuth2
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: abc
+            client-secret: abc
+          github:
+            client-id: Ov23liDdrKlbObKKMH8X
+            client-secret: 160adcae3088867f4eca4a264dbef0f3ec197872
