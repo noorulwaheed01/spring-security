@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -15,10 +15,27 @@ public class Security {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.csrf(AbstractHttpConfigurer::disable)
-        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/api/**").authenticated())
-        .oauth2Login(oauth -> oauth.successHandler(oAuth2SuccessHandler));
+    http
+            .csrf(AbstractHttpConfigurer::disable)
+
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(
+                            "/login/**",
+                            "/oauth2/**",
+                            "/error"
+                    ).permitAll()
+                    .requestMatchers("/api/**").authenticated()
+                    .anyRequest().permitAll()
+            )
+
+            .oauth2Login(oauth2 -> oauth2
+//                    .authorizationEndpoint(authorization ->
+//                            authorization.authorizationRequestRepository(
+//                                    new CookieOAuth2AuthorizationRequestRepository()
+//                            )
+//                    )
+                    .successHandler(oAuth2SuccessHandler)
+            );
     return http.build();
   }
 }

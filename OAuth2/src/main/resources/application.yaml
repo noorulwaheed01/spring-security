@@ -6,9 +6,35 @@ spring:
     oauth2:
       client:
         registration:
-          google:
-            client-id: abc
-            client-secret: abc
           github:
             client-id: Ov23liDdrKlbObKKMH8X
             client-secret: 160adcae3088867f4eca4a264dbef0f3ec197872
+          personal:
+            client-id: client
+            client-secret: secret
+            scope: openid, profile
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+
+        provider:
+          personal:
+            authorization-uri: http://localhost:9000/oauth2/authorize
+            token-uri: http://localhost:9000/oauth2/token
+            jwk-set-uri: http://localhost:9000/oauth2/jwks
+
+
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: lax
+        secure: false   # true only if HTTPS
+
+  forward-headers-strategy: framework
+
+
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE

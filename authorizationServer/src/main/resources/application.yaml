@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: authorizationServer
+
+server:
+  port: 9000
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
